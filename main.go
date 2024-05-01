@@ -30,6 +30,7 @@ func (a *App) setRouters() {
 	a.Router.HandleFunc("/register", routes.Register(a.DB)).Methods("POST")
 	a.Router.HandleFunc("/editpassword", routes.EditPasswordRequest(a.DB)).Methods("POST")
 	a.Router.HandleFunc("/deleteuser", routes.DeleteUserRequest(a.DB)).Methods("DELETE")
+	a.Router.HandleFunc("/getusers", routes.GetUsersRequest(a.DB)).Methods("GET")
 }
 
 func (a *App) Run(addr string) {
