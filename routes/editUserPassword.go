@@ -33,6 +33,8 @@ func EditPasswordRequest(db *sql.DB) func(http.ResponseWriter, *http.Request) {
 			return
 		}
 
+		log.Printf("User %s changed pasword successfully", req.Username)
+
 		w.Write([]byte("Password edited successfully"))
 	}
 }
