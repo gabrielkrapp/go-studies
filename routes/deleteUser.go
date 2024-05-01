@@ -9,9 +9,13 @@ import (
 	userModel "estudos-go/model/db"
 )
 
+type deleteUserInfosRequest struct {
+	Username string `json:"username"`
+}
+
 func DeleteUserRequest(db *sql.DB) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req userInfosRequest
+		var req deleteUserInfosRequest
 
 		err := json.NewDecoder(r.Body).Decode(&req)
 		if err != nil {
