@@ -15,10 +15,9 @@ func DatabaseConnect() (*sql.DB, error) {
 		return nil, erro
 	}
 
-	defer db.Close()
-
 	erro = db.Ping()
 	if erro != nil {
+		db.Close()
 		return nil, erro
 	}
 
