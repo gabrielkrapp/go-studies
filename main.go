@@ -22,6 +22,8 @@ func (a *App) Initialize() {
 		log.Fatal("Error connecting to database: ", err)
 	}
 
+	a.DB.Close()
+
 	a.Router = mux.NewRouter()
 	a.setRouters()
 }
