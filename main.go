@@ -1,15 +1,42 @@
 package main
 
 import (
-	"banco-de-dados/dbconfig"
-	"fmt"
+	"database/sql"
+	dbconfig "estudos-go/model/config"
+	"estudos-go/routes"
 	"log"
+	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
-func main() {
-	_, erro := dbconfig.DatabaseConnect()
-	if erro != nil {
-		fmt.Println("Error connecting to database")
-		log.Fatal(erro)
+type App struct {
+	Router *mux.Router
+	DB     *sql.DB
+}
+
+func (a *App) Initialize() {
+	var err error
+	a.DB, err = dbconfig.DatabaseConnect()
+	if err != nil {
+		log.Fatal("Error connecting to database: ", err)
 	}
+
+	a.Router = mux.NewRouter()
+	a.setRouters()
+}
+
+func (a *App) setRouters() {
+	a.Router.HandleFunc("/register", routes.Register(a.DB)).Methods("POST")
+	a.Router.HandleFunc("/editpassword", routes.EditPasswordRequest(a.DB)).Methods("POST")
+}
+
+func (a *App) Run(addr string) {
+	log.Fatal(http.ListenAndServe(addr, a.Router))
+}
+
+func main() {
+	app := &App{}
+	app.Initialize()
+	app.Run(":8080")
 }
