@@ -40,6 +40,8 @@ func Register(db *sql.DB) func(http.ResponseWriter, *http.Request) {
 
 		log.Printf("User %s registered successfully", req.Username)
 
-		w.Write([]byte("User registered successfully"))
+		if _, err := w.Write([]byte("User registered successfully")); err != nil {
+			log.Printf("Error to send a message: %v", err)
+		}
 	}
 }
