@@ -22,8 +22,6 @@ func (a *App) Initialize() {
 		log.Fatal("Error connecting to database: ", err)
 	}
 
-	defer a.DB.Close()
-
 	a.Router = mux.NewRouter()
 	a.setRouters()
 }
@@ -40,5 +38,6 @@ func (a *App) Run(addr string) {
 func main() {
 	app := &App{}
 	app.Initialize()
+	defer app.DB.Close()
 	app.Run(":8080")
 }

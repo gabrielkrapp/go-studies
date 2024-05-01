@@ -32,11 +32,13 @@ func Register(db *sql.DB) func(http.ResponseWriter, *http.Request) {
 			return
 		}
 
-		if err := userModel.SaveUser(db, req.Username, string(hashedPassword)); err != nil {
+		if err := userModel.RegisterUser(db, req.Username, string(hashedPassword)); err != nil {
 			log.Printf("Failed to save user: %v", err)
 			http.Error(w, "Failed to save the user", http.StatusInternalServerError)
 			return
 		}
+
+		log.Printf("User %s registered successfully", req.Username)
 
 		w.Write([]byte("User registered successfully"))
 	}
