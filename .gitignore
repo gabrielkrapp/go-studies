@@ -1,0 +1,43 @@
+# Binários para programas e plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Arquivos de log
+*.log
+
+# Diretórios de saída
+/dist
+/tmp
+
+# Dependências
+/vendor/
+Gopkg.lock
+go.sum
+
+# Arquivos de configuração sensíveis
+.env
+.secret
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Diretórios específicos do IDE ou editor
+/.vscode/
+/.idea/
+*.swp
+*~
+
+# Diretório que contém perfis de desempenho do usuário
+/pprof/
+
+# Pastas de configuração do Go
+/pkg/
+
+# Pastas de cache do Go
+**/node_modules/
+**/.sass-cache

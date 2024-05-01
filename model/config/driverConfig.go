@@ -1,18 +1,34 @@
 package dbconfig
 
-import "fmt"
+import (
+	"fmt"
+	"os"
 
-const PostgresDriver = "postgres"
+	"github.com/joho/godotenv"
+)
 
-const User = "postgres"
+func init() {
+	if err := godotenv.Load(); err != nil {
+		fmt.Println("No .env file found")
+	}
+}
 
-const Host = "localhost"
+var (
+	PostgresDriver = getEnv("POSTGRES_DRIVER", "postgres")
+	User           = getEnv("POSTGRES_USER", "postgres")
+	Host           = getEnv("POSTGRES_HOST", "localhost")
+	Port           = getEnv("POSTGRES_PORT", "5432")
+	Password       = getEnv("POSTGRES_PASSWORD", "postgres")
+	DbName         = getEnv("POSTGRES_DB", "postgres")
+	SSLMode        = getEnv("POSTGRES_SSLMODE", "disable")
+)
 
-const Port = "5432"
+var DataSourceName = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+	Host, Port, User, Password, DbName, SSLMode)
 
-const Password = "postgres"
-
-const DbName = "postgres"
-
-var DataSourceName = fmt.Sprintf("host=%s port=%s user=%s "+
-	"password=%s dbname=%s sslmode=disable", Host, Port, User, Password, DbName)
+func getEnv(key, fallback string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return fallback
+}
